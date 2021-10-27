@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<style>
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    h1 {
+        text-align: center;
+        color: rgb(236, 137, 154);
+        border-bottom: 1px solid darkgrey;
+        padding-bottom: 20px;
+    }
+
+    .board-title {
+        display: flex;
+        /* justify-content: space-evenly; */
+    }
+
+    .no {
+        padding: 0 20px;
+        width: 30px;
+    }
+
+    .p {
+        padding: 0 20px;
+        width: 400px;
+    }
+
+    .writer {
+        padding: 0 20px;
+        width: 100px;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .board {
+        min-height: 700px;
+        color: rgb(87, 86, 86);
+    }
+
+    .pagination {
+        text-align: center;
+        padding-top: 300px;
+    }
+
+    .pagination>a {
+        text-decoration: none;
+        color: rgb(236, 137, 154);
+        font-size: 20px;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<h1>Board List</h1>
+<div class="board">
+    <ul>
+        <li class="board-title">
+            <span class="title no">No</span>
+            <span class="title writer">Writer</span>
+            <span class="title p">Title</span>
+            <span class="title p">Content</span>
+            <span class="title p">Time</span>
+        </li>
+        {% for board in boards %}
+        <li class="board-title">
+            <span class="no">{{board.pk}}</span>
+            <span class="writer">{{board.writer| truncatechars:10 }}</span>
+            <span class="p">{{board.title| truncatechars:40 }}</span>
+            <span class="p">{{board.content| truncatechars:40}}</span>
+            <span class="p">{{board.created_at |date:'F.d.Y'}}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">pre</a>
+        {% endif %}
+
+        {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">next</a>
+        {% endif %}
+    </div>
+
+    {% endblock content %}

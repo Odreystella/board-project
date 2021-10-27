@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        header>ul {
+            text-align: right;
+            padding-right: 100px;
+        }
+
+        header>ul>li {
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        header>ul>li>a {
+            text-decoration: none;
+            color: rgb(236, 137, 154);
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+    {% block css %}{% endblock css%}
+    <title>{{page_title}}</title>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">로그인</a></li>
+            <li><a href="">회원가입</a></li>
+        </ul>
+    </header>
+
+    <div class="main">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <footer>
+        &copy; Odreystella
+    </footer>
+</body>
+
+</html>
