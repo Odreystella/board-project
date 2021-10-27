@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView
+from django.http import Http404
 from boards.models import Board
 from .forms import  BoardCreationForm
 from users.mixins import LoggedInOnlyView, LoggedOutOnlyView
@@ -36,7 +37,7 @@ class BoardCreateView(LoggedInOnlyView,FormView):
         return redirect(reverse("home"))
 
 
-class BoardDetailView(LoggedInOnlyView, DeleteView):
+class BoardDetailView(DeleteView):
 
     model = Board
     template_name = "boards/board_detail.html"
@@ -53,6 +54,11 @@ class BoardUpdateView(LoggedInOnlyView, UpdateView):
         pk = self.kwargs.get("pk")
         return reverse("boards:detail", kwargs={"pk": pk})
 
+    def get_object(self, queryset=None):   # return the object the view is displaying
+        board = super().get_object(queryset=queryset)   
+        if board.writer.pk != self.request.user.pk:   # 글의 작성자가 아닌 다른 유저가 수정하지 못하게끔 함
+            raise Http404() 
+        return board
 
 @login_required
 def delete_board(request, pk):
@@ -62,9 +68,8 @@ def delete_board(request, pk):
         if board.writer == user:
             board.delete()
         else:
-            pass
+            raise Http404() 
         return redirect(reverse("home"))
 
     except Board.DoesNotExist:
         return redirect(reverse("home"))
-    pass
