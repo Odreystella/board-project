@@ -33,3 +33,21 @@ class BoardCreateView(LoggedInOnlyView,FormView):
         board.writer = self.request.user
         board.save()
         return redirect(reverse("home"))
+
+
+class BoardDetailView(LoggedInOnlyView, DeleteView):
+
+    model = Board
+    template_name = "boards/board_detail.html"
+
+
+class BoardUpdateView(LoggedInOnlyView, UpdateView):
+
+    model = Board
+    template_name = "boards/board_edit.html"
+    pk_url_kwarg = "pk"
+    fields = ("title", "content",)
+
+    def get_success_url(self):
+        pk = self.kwargs.get("pk")
+        return reverse("boards:detail", kwargs={"pk": pk})

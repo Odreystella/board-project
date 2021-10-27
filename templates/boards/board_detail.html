@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block css %}
+<style>
+    a {
+        text-decoration: none;
+        color: rgb(236, 137, 154);
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div>
+    <h2> Board Detail</h2>
+    <h4>Writer: {{board.writer}}</h4>
+    <h4>Title: {{board.title}}</h4>
+    <h4>Content: {{board.content}}</h4>
+    <h4>Time: {{board.created_at}}</h4>
+</div>
+<a href="{% url 'boards:edit' board.pk %}">글 수정</a>
+{% endblock content %}

@@ -63,6 +63,10 @@
         top: 30px;
         left: 10px;
     }
+    .article {
+        text-decoration: none;
+        color: rgb(87, 86, 86);
+    }
 </style>
 {% endblock css %}
 {% block content %}
@@ -77,13 +81,13 @@
             <span class="title p">Time</span>
         </li>
         {% for board in boards %}
-        <li class="board-title">
+        <a class="article" href="{% url 'boards:detail' board.pk %}"><li class="board-title">
             <span class="no">{{board.pk}}</span>
             <span class="writer">{{board.writer| truncatechars:10 }}</span>
             <span class="p">{{board.title| truncatechars:40 }}</span>
             <span class="p">{{board.content| truncatechars:40}}</span>
             <span class="p">{{board.created_at |date:'F.d.Y'}}</span>
-        </li>
+        </li></a>
         {% endfor %}
     </ul>
     <a class="btn" href="{% url 'boards:create' %}">글쓰기 &rarr; </a>
