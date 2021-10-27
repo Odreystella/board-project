@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView
 from boards.models import Board
 from .forms import  BoardCreationForm
@@ -51,3 +52,19 @@ class BoardUpdateView(LoggedInOnlyView, UpdateView):
     def get_success_url(self):
         pk = self.kwargs.get("pk")
         return reverse("boards:detail", kwargs={"pk": pk})
+
+
+@login_required
+def delete_board(request, pk):
+    user = request.user
+    try:
+        board = Board.objects.get(pk=pk)
+        if board.writer == user:
+            board.delete()
+        else:
+            pass
+        return redirect(reverse("home"))
+
+    except Board.DoesNotExist:
+        return redirect(reverse("home"))
+    pass
