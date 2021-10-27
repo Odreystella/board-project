@@ -1,6 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.shortcuts import render,redirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView
 from boards.models import Board
+from .forms import  BoardCreationForm
+from users.mixins import LoggedInOnlyView, LoggedOutOnlyView
 
 
 class BoardListView(ListView):
@@ -16,3 +19,17 @@ class BoardListView(ListView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = "All Articles"
         return context
+
+
+class BoardCreateView(LoggedInOnlyView,FormView):
+  
+    model  = Board
+    form_class = BoardCreationForm
+    template_name="boards/board_create.html"
+    context_object_name = "board"
+
+    def form_valid(self, form):
+        board = form.save()
+        board.writer = self.request.user
+        board.save()
+        return redirect(reverse("home"))

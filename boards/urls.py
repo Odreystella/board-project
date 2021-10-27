@@ -1,7 +1,8 @@
 from django.urls import path
+from .views import BoardCreateView
 
 app_name = "boards"
 
 urlpatterns = [
-#   path("", MovieListView.as_view(), name="movies" )
+  path("create/", BoardCreateView.as_view(), name="create" )
 ]

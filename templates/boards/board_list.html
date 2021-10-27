@@ -55,6 +55,14 @@
         color: rgb(236, 137, 154);
         font-size: 20px;
     }
+
+    .btn {
+        position: relative;
+        text-decoration: none;
+        color: rgb(236, 137, 154);
+        top: 30px;
+        left: 10px;
+    }
 </style>
 {% endblock css %}
 {% block content %}
@@ -78,6 +86,7 @@
         </li>
         {% endfor %}
     </ul>
+    <a class="btn" href="{% url 'boards:create' %}">글쓰기 &rarr; </a>
     <div class="pagination">
         {% if page_obj.has_previous %}
         <a href="?page={{page_obj.previous_page_number}}">pre</a>

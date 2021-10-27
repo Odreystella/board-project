@@ -7,15 +7,16 @@
 
 {% block content %}
 <div>
-    <h2> Login</h2>
+    <h2> Board Create</h2>
     <form method="POST">
         {% csrf_token %}
         {% for field in form %}
         {{field.label}}
-        {{field}}
         <br>
+        {{field}}
+        <br />
         {% endfor %}
-        <button>log in</button>
+        <button>등록</button>
     </form>
 </div>
 
