@@ -18,7 +18,8 @@ from django.urls import path, include
 from boards.views import BoardListView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', BoardListView.as_view(), name="home"),
-    path('boards/', include('boards.urls', namespace="boards")),
+    path("admin/", admin.site.urls),
+    path("", BoardListView.as_view(), name="home"),
+    path("boards/", include('boards.urls', namespace="boards")),
+    path("users/", include('users.urls', namespace="users")),
 ]
